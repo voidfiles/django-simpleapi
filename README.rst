@@ -128,3 +128,20 @@ Finally, you might want to add you own information to the meta part of the envel
         return {
             'yak': 'yummm'
         }
+
+The response would now look something like this.
+
+.. code-block:: shell
+
+    curl http://localhost:8000/get/some/yak
+
+    {
+        "data": {
+            "yak": "yummm"
+        },
+        "meta": {
+            "code": 200,
+            "yak_counter": 1
+        }
+    }
+
