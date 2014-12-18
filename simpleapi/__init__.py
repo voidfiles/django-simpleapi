@@ -6,6 +6,7 @@ from django.http import HttpResponse
 logger = logging.getLogger(__name__)
 
 __all__ = ('SimpleHttpException', 'api_handler')
+__version__ = '1.0'
 
 
 class SimpleHttpException(Exception):

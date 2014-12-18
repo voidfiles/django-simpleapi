@@ -1,19 +1,28 @@
-from setuptools import setup, find_packages
+from setuptools import setup
 
+import simplepai
+
+packages = [
+    'simplepai',
+]
 
 setup(
     name="django-simpleapi",
-    version="1.0",
+    version=simplepai.__version__,
     author="Alex Kessinger",
     author_email="voidfiles@gmail.com",
-    description="A Django package that allows you to write apis simply",
+    description="A Django package that allows you to write APIs simply",
     long_description=open("README.rst").read(),
     license="MIT",
-    url="http://github.com/pinax/django-waitinglist",
-    packages=find_packages(),
-    package_data={"waitinglist": ["templates/*/*/*"]},
+    url="http://github.com/voidfiles/django-simpleapi",
+    packages=packages,
+    package_data={'': ['LICENSE']},
+    package_dir={'simplepai': 'simplepai'},
+    include_package_data=True,
+    install_requires=['Django >= 1.4.3'],
+    tests_require=['Django >= 1.4.3'],
     classifiers=[
-        "Development Status :: 4 - Beta",
+        "Development Status :: 5 - Production/Stable",
         "Environment :: Web Environment",
         "Intended Audience :: Developers",
         "License :: OSI Approved :: MIT License",

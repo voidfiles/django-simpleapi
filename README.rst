@@ -50,6 +50,8 @@ Features
 --------
 
 - A Simple API for Django
+- Easy execption handling, creation
+- Easy addition to meta
 
 Installation
 ------------
@@ -64,3 +66,65 @@ To install Requests, simply:
 Documentation
 -------------
 
+This easyiest way to get started is to use the `api_handler` decorator.
+
+.. code-block:: python
+
+    from simpleapi import api_handler
+
+    @api_handler
+    def get_some_yak(request):
+        return {
+            'yak': 'yummm'
+        }
+
+Any view function that returns a dict object will work with this interface.
+
+Next, often in APIs you need to fail for some reason. Validation, missing params, you name it. There is an easy way to make that happen `SimpleHttpException`
+
+.. code-block:: python
+
+    from simpleapi import api_handler, SimpleHttpException
+
+    @api_handler
+    def get_some_yak(request):
+        required_param = request.GET.get('required_param')
+
+        if required_params is None:
+            raise SimpleHttpException("Missing required_param", 'missing-required-param', 400)
+
+        return {
+            'yak': 'yummm'
+        }
+
+
+Now when you request this view and forget to pass required_param you would see something like this.
+
+
+.. code-block:: shell
+
+    curl http://localhost:8000/get/some/yak
+
+    {
+        "meta": {
+            "code": 400,
+            "error_message": "Missing required_param",
+            "error_slug": "missing-required-param"
+        }
+    }
+
+Not only will the HTTP Status code be in the meta response, it will also be the HTTP Code sent back. Error slug is helpfull in resolving exceptions progrmattically. It's mucher easier then relying on string grepping to figure out what went wrong.
+
+Finally, you might want to add you own information to the meta part of the envelope. This would helpfull for passing information like pagination information.
+
+.. code-block:: python
+
+    from simpleapi import api_handler
+
+    @api_handler
+    def get_some_yak(request):
+        request.META['_simple_api_meta']['yak_count'] = 1
+
+        return {
+            'yak': 'yummm'
+        }
