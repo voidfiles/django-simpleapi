@@ -1,5 +1,6 @@
 import logging
 import json
+import sys
 
 from django.http import HttpResponse
 
@@ -39,7 +40,8 @@ def api_handler(func):
 
         try:
             data = func(request, *args, **kwargs)
-        except SimpleHttpException, e:
+        except SimpleHttpException:
+            e = sys.exc_info()[1]
             code = create_exception_response(request, e.message, e.error_slug, e.code)
         except Exception:
             logger.exception('caught an unhandled exception in %s', func)

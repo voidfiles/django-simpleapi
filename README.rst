@@ -90,7 +90,7 @@ Next, often in APIs you need to fail for some reason. Validation, missing params
     def get_some_yak(request):
         required_param = request.GET.get('required_param')
 
-        if required_params is None:
+        if required_param is None:
             raise SimpleHttpException("Missing required_param", 'missing-required-param', 400)
 
         return {
