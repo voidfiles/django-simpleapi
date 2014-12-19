@@ -1,14 +1,14 @@
 from setuptools import setup
 
-import simplepai
+import simpleapi
 
 packages = [
-    'simplepai',
+    'simpleapi',
 ]
 
 setup(
     name="django-simpleapi",
-    version=simplepai.__version__,
+    version=simpleapi.__version__,
     author="Alex Kessinger",
     author_email="voidfiles@gmail.com",
     description="A Django package that allows you to write APIs simply",
@@ -19,8 +19,8 @@ setup(
     package_data={'': ['LICENSE']},
     package_dir={'simplepai': 'simplepai'},
     include_package_data=True,
-    install_requires=['Django >= 1.4.3'],
-    tests_require=['Django >= 1.4.3'],
+    install_requires=['Django >= 1.7'],
+    tests_require=['Django >= 1.7'],
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Environment :: Web Environment",

@@ -1,11 +1,14 @@
 django-simpleapi: API's for everyone
 ====================================
 
-.. image:: https://badge.fury.io/py/requests.png
-    :target: http://badge.fury.io/py/requests
+.. image:: https://api.travis-ci.org/voidfiles/django-simpleapi.svg
+    :target: https://travis-ci.org/voidfiles/django-simpleapi
 
-.. image:: https://pypip.in/d/requests/badge.png
-        :target: https://crate.io/packages/requests/
+.. image:: https://badge.fury.io/py/django-simpleapi.png
+    :target: http://badge.fury.io/py/django-simpleapi
+
+.. image:: https://pypip.in/d/django-simpleapi/badge.png
+        :target: https://crate.io/packages/django-simpleapi/
 
 
 django-simpleapi is an MIT Licensed django app, written in Python, for developers.
