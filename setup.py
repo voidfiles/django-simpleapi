@@ -1,14 +1,12 @@
 from setuptools import setup
 
-import simpleapi
-
 packages = [
     'simpleapi',
 ]
 
 setup(
     name="django-simpleapi",
-    version=simpleapi.__version__,
+    version='1.0.2',
     author="Alex Kessinger",
     author_email="voidfiles@gmail.com",
     description="A Django package that allows you to write APIs simply",
