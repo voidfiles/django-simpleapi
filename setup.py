@@ -19,6 +19,7 @@ setup(
     package_data={'': ['LICENSE']},
     package_dir={'simplepai': 'simplepai'},
     include_package_data=True,
+    setup_requires=['Django >= 1.7'],
     install_requires=['Django >= 1.7'],
     tests_require=['Django >= 1.7'],
     classifiers=[
