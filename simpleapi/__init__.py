@@ -2,12 +2,16 @@ import logging
 import json
 import sys
 
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
+from django.conf.urls import patterns, url
+from django.core.urlresolvers import RegexURLResolver
+
+from .utils import CaseInsensitiveDict
 
 logger = logging.getLogger(__name__)
 
-__all__ = ('SimpleHttpException', 'api_handler')
-__version__ = '1.0.1'
+__all__ = ('SimpleHttpException', 'api_handler', 'api_export')
+__version__ = '1.1.0'
 
 
 class SimpleHttpException(Exception):
@@ -63,3 +67,45 @@ def api_handler(func):
         return HttpResponse(content, content_type='application/json', status=code)
 
     return inner
+
+
+url_patterns = CaseInsensitiveDict()
+resolvers = CaseInsensitiveDict()
+
+
+def api_export(method, path):
+    def _inner(func):
+        url_pattern = url_patterns.get(method)
+        if not url_pattern:
+            url_pattern = url_patterns[method] = patterns('')
+
+        resolver = resolvers.get(method)
+        if not resolver:
+            resolver = resolvers[method] = RegexURLResolver('', url_pattern)
+
+        full_path = path + r'/?$'
+
+        func = api_handler(func)
+
+        url_pattern += patterns('', url(full_path, func, name=func.__name__))
+
+        return func
+
+    return _inner
+
+
+def api_export_handler(request, path):
+    resolver = resolvers.get(request.method)
+    if not resolver:
+        raise Http404()
+
+    view_func, view_args, view_kwargs = resolver.resolve(path)
+
+    return view_func(request, *view_args, **view_kwargs)
+
+
+simple_api_patterns = patterns(
+    '',
+    url(r'^(?P<path>.+)$', api_export_handler),
+)
+

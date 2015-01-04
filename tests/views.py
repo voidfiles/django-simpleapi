@@ -1,4 +1,4 @@
-from simpleapi import api_handler, SimpleHttpException
+from simpleapi import api_handler, api_export, SimpleHttpException
 
 
 @api_handler
@@ -26,3 +26,17 @@ def resp_test3(request):
     return {
         'value': True
     }
+
+
+@api_export(method='GET', path=r'test1')
+def resp_export_test1(request):
+    return {
+        'value': True
+    }
+
+@api_export(method='GET', path=r'test2/(?P<param>[0-9]+)')
+def resp_export_test1(request, param):
+    return {
+        'value': param
+    }
+

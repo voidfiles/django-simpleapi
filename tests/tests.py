@@ -42,3 +42,21 @@ class SimpleApiTestCase(TestCase):
         self.assertNotIn('data', result)
         self.assertIn('code', result['meta'])
         self.assertEquals(result['meta']['code'], 500)
+
+
+class ExportApiTestCase(TestCase):
+    def test_simple_resp(self):
+        resp = self.client.get('/api/v1/test1/')
+        self.assertEquals(resp.status_code, 200)
+
+        result = json.loads(resp.content)
+
+        self.assertEquals(result['data']['value'], True)
+
+    def test_params(self):
+        resp = self.client.get('/api/v1/test2/1')
+        self.assertEquals(resp.status_code, 200)
+
+        result = json.loads(resp.content)
+
+        self.assertEquals(result['data']['value'], '1')
