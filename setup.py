@@ -6,7 +6,7 @@ packages = [
 
 setup(
     name="django-simpleapi",
-    version='1.1.0',
+    version='1.2.0',
     author="Alex Kessinger",
     author_email="voidfiles@gmail.com",
     description="A Django package that allows you to write APIs simply",

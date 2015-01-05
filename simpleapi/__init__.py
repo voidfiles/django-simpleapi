@@ -11,20 +11,22 @@ from .utils import CaseInsensitiveDict
 logger = logging.getLogger(__name__)
 
 __all__ = ('SimpleHttpException', 'api_handler', 'api_export')
-__version__ = '1.1.0'
+__version__ = '1.2.0'
 
 
 class SimpleHttpException(Exception):
-    def __init__(self, message, error_slug, code=400):
+    def __init__(self, message, error_slug, code=400, info=None):
         super(SimpleHttpException, self).__init__(message)
         self.code = code
         self.error_slug = error_slug
+        self.info = info
 
 
-def create_exception_response(request, error_message, error_slug, code):
+def create_exception_response(request, error_message, error_slug, code, info):
     request.META['_simple_api_meta']['code'] = code
     request.META['_simple_api_meta']['error_message'] = error_message
     request.META['_simple_api_meta']['error_slug'] = error_slug
+    request.META['_simple_api_meta']['error_info'] = info
 
     return code
 
@@ -46,10 +48,10 @@ def api_handler(func):
             data = func(request, *args, **kwargs)
         except SimpleHttpException:
             e = sys.exc_info()[1]
-            code = create_exception_response(request, e.message, e.error_slug, e.code)
+            code = create_exception_response(request, e.message, e.error_slug, e.code, e.info)
         except Exception:
             logger.exception('caught an unhandled exception in %s', func)
-            code = create_exception_response(request, 'Unhandled Exception', 'unhandled', 500)
+            code = create_exception_response(request, 'Unhandled Exception', 'unhandled', 500, None)
 
         resp_envelope = {
             'meta': get_meta(request, code)
