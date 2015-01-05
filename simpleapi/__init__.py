@@ -5,6 +5,7 @@ import sys
 from django.http import HttpResponse, Http404
 from django.conf.urls import patterns, url
 from django.core.urlresolvers import RegexURLResolver
+from django.views.decorators.csrf import csrf_exempt
 
 from .utils import CaseInsensitiveDict
 
@@ -96,6 +97,7 @@ def api_export(method, path):
     return _inner
 
 
+@csrf_exempt
 def api_export_handler(request, path):
     resolver = resolvers.get(request.method)
     if not resolver:
@@ -110,4 +112,3 @@ simple_api_patterns = patterns(
     '',
     url(r'^(?P<path>.+)$', api_export_handler),
 )
-
