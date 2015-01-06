@@ -2,7 +2,9 @@ import logging
 import json
 import sys
 
+from corsheaders.middleware import CorsMiddleware
 from django.http import HttpResponse, Http404
+from django.conf import settings
 from django.conf.urls import patterns, url
 from django.core.urlresolvers import RegexURLResolver
 from django.views.decorators.csrf import csrf_exempt
@@ -12,7 +14,25 @@ from .utils import CaseInsensitiveDict
 logger = logging.getLogger(__name__)
 
 __all__ = ('SimpleHttpException', 'api_handler', 'api_export')
-__version__ = '1.2.1'
+__version__ = '1.3.0'
+
+cors_middleware = None
+
+if getattr(settings, 'SIMPLEAPI_ENABLE_CORS', False):
+    cors_middleware = CorsMiddleware()
+
+
+def allow_cors(func):
+    def func_wrapper(request, *args, **kwargs):
+        resp = cors_middleware.process_request(request)
+        if not resp:
+            resp = func(request, *args, **kwargs)
+
+        resp = cors_middleware.process_response(request, resp)
+
+        return resp
+
+    return func_wrapper
 
 
 class SimpleHttpException(Exception):
@@ -107,6 +127,8 @@ def api_export_handler(request, path):
 
     return view_func(request, *view_args, **view_kwargs)
 
+if cors_middleware:
+    api_export_handler = allow_cors(api_export_handler)
 
 simple_api_patterns = patterns(
     '',

@@ -6,7 +6,7 @@ packages = [
 
 setup(
     name="django-simpleapi",
-    version='1.2.1',
+    version='1.3.0',
     author="Alex Kessinger",
     author_email="voidfiles@gmail.com",
     description="A Django package that allows you to write APIs simply",
@@ -18,7 +18,7 @@ setup(
     package_dir={'simplepai': 'simplepai'},
     include_package_data=True,
     setup_requires=['Django >= 1.7'],
-    install_requires=['Django >= 1.7'],
+    install_requires=['Django >= 1.7', 'django-cors-headers >= 1.0.0'],
     tests_require=['Django >= 1.7'],
     classifiers=[
         "Development Status :: 5 - Production/Stable",

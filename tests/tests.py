@@ -60,3 +60,10 @@ class ExportApiTestCase(TestCase):
         result = json.loads(resp.content)
 
         self.assertEquals(result['data']['value'], '1')
+
+    def test_cors(self):
+        response = self.client.options('/api/v1/test1/', HTTP_ORIGIN='http://localhost:9000', HTTP_ACCESS_CONTROL_REQUEST_METHOD='GET')
+        assert response.status_code == 200
+        assert response['Access-Control-Allow-Origin'] == 'http://localhost:9000'
+        response = self.client.get('/api/v1/test1/', HTTP_ORIGIN='http://localhost:9000')
+        assert response['Access-Control-Allow-Origin'] == 'http://localhost:9000'
