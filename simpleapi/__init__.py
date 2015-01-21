@@ -117,7 +117,6 @@ def api_export(method, path):
     return _inner
 
 
-@csrf_exempt
 def api_export_handler(request, path):
     resolver = resolvers.get(request.method)
     if not resolver:
@@ -129,6 +128,9 @@ def api_export_handler(request, path):
 
 if cors_middleware:
     api_export_handler = allow_cors(api_export_handler)
+
+if getattr(settings, 'SIMPLEAPI_ENABLE_CSRF', False) is False:
+    api_export_handler = csrf_exempt(api_export_handler)
 
 simple_api_patterns = patterns(
     '',
