@@ -14,7 +14,7 @@ from .utils import CaseInsensitiveDict
 logger = logging.getLogger(__name__)
 
 __all__ = ('SimpleHttpException', 'api_handler', 'api_export')
-__version__ = '1.3.0'
+__version__ = '1.3.1'
 
 cors_middleware = None
 
