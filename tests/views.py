@@ -17,6 +17,9 @@ def resp_test2(request):
         'value': True
     }
 
+@api_handler
+def empty_response_test(request):
+    return []
 
 @api_handler
 def resp_test3(request):

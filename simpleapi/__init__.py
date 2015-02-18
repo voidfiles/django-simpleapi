@@ -70,15 +70,17 @@ def api_handler(func):
         except SimpleHttpException:
             e = sys.exc_info()[1]
             code = create_exception_response(request, e.message, e.error_slug, e.code, e.info)
+            data = None
         except Exception:
             logger.exception('caught an unhandled exception in %s', func)
             code = create_exception_response(request, 'Unhandled Exception', 'unhandled', 500, None)
+            data = None
 
         resp_envelope = {
             'meta': get_meta(request, code)
         }
 
-        if data:
+        if data is not None:
             resp_envelope['data'] = data
 
         pp = request.META.get('HTTP_X_PRETTY_PRINT_JSON', '0') == '1'
