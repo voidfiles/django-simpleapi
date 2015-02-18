@@ -16,6 +16,18 @@ class SimpleApiTestCase(TestCase):
         self.assertEquals(result['meta']['code'], 200)
         self.assertEquals(result['data']['value'], True)
 
+    def test_empty_resp(self):
+        resp = self.client.get('/empty_response_test')
+        self.assertEquals(resp.status_code, 200)
+
+        result = json.loads(resp.content)
+
+        self.assertIn('meta', result)
+        self.assertIn('data', result)
+        self.assertIn('code', result['meta'])
+        self.assertEquals(result['meta']['code'], 200)
+        self.assertEquals(result['data'], [])
+
     def test_bad_response(self):
         resp = self.client.get('/test2')
         self.assertEquals(resp.status_code, 400)
