@@ -1,6 +1,7 @@
 import json
 
 from django.test import TestCase
+from simpleapi import url_patterns
 
 
 class SimpleApiTestCase(TestCase):
@@ -27,6 +28,12 @@ class SimpleApiTestCase(TestCase):
         self.assertIn('code', result['meta'])
         self.assertEquals(result['meta']['code'], 200)
         self.assertEquals(result['data'], [])
+
+    def test_dockstring_view_docstring(self):
+        """Testing that decorated view returns valid dockstring, before @wraps it always was None"""
+        from views import docstring_test as docstring_test_view
+
+        self.assertEquals(docstring_test_view.__doc__, "Docstring description")
 
     def test_bad_response(self):
         resp = self.client.get('/test2')

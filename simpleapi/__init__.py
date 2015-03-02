@@ -9,6 +9,8 @@ from django.conf.urls import patterns, url
 from django.core.urlresolvers import RegexURLResolver
 from django.views.decorators.csrf import csrf_exempt
 
+from functools import wraps
+
 from .utils import CaseInsensitiveDict
 
 logger = logging.getLogger(__name__)
@@ -60,6 +62,7 @@ def get_meta(request, code):
 
 
 def api_handler(func):
+    @wraps(func)
     def inner(request, *args, **kwargs):
         request.META['_simple_api_meta'] = request.META.get('_simple_api_meta', dict())
         data = None
