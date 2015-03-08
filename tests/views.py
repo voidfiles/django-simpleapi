@@ -21,6 +21,13 @@ def resp_test2(request):
 def empty_response_test(request):
     return []
 
+@api_handler 
+def docstring_test(request):
+    """Docstring description"""
+    return "Dockstring response"
+
+
+
 @api_handler
 def resp_test3(request):
 
@@ -42,4 +49,5 @@ def resp_export_test1(request, param):
     return {
         'value': param
     }
+
 
